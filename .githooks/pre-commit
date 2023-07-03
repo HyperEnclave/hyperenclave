@@ -1,0 +1,21 @@
+#!/bin/bash
+
+CYAN="\033[1;36m"
+NO_COLOR="\033[0m"
+
+cargo fmt --version >/dev/null 2>&1
+if [[ $? != 0 ]]; then
+	echo -e "Warning: $CYAN cargo fmt $NO_COLOR is not available."
+	exit 1
+fi
+
+info=$(make format-check)
+if [ -n "$info" ]; then
+	echo -e  "Format Error detected:"
+	echo -e 
+	echo -e  "$info"
+	echo -e 
+	echo -e  "Please run $CYAN make format $NO_COLOR and re-run $CYAN git add $NO_COLOR the modified files before commit."
+	echo -e 
+	exit 1
+fi

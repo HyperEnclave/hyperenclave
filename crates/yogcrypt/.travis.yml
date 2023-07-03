@@ -1,0 +1,76 @@
+language: rust
+rust:
+  - stable
+  - nightly
+env:
+  matrix:
+    - TARGET=x86_64-unknown-linux-gnu TEST=1
+    - TARGET=x86_64-unknown-linux-musl
+    - TARGET=aarch64-unknown-linux-gnu RUSTFLAGS="-C linker=aarch64-linux-gnu-gcc"
+    - TARGET=arm-unknown-linux-gnueabi RUSTFLAGS="-C linker=arm-linux-gnueabi-gcc"
+matrix:
+  include:
+    - rust: 1.27.2
+      env: TARGET=x86_64-unknown-linux-gnu TEST=1
+    - os: osx
+      rust: stable
+      env: TARGET=x86_64-apple-darwin
+    - os: osx
+      rust: nightly
+      env: TARGET=x86_64-apple-darwin
+    - rust: nightly
+      env: DOC=1
+      install:
+        - cargo --list | egrep "^\s*deadlinks$" -q || cargo install cargo-deadlinks
+        - cargo deadlinks -V
+      before_script:
+        - pip install 'travis-cargo<0.2' --user && export PATH=$HOME/.local/bin:$PATH
+      script:
+        # remove cached documentation, otherwise files from previous PRs can get included
+        - rm -rf target/doc
+        - cargo doc --no-deps --all --all-features
+        - cargo deadlinks --dir target/doc
+      after_success:
+        - travis-cargo --only nightly doc-upload
+      deploy:
+        provider: pages
+        fqdn: doc.yogcrypt.org
+        local-dir: target/doc
+        skip-cleanup: true
+        verbose: true
+        repo: yogcrypt/doc
+        target-branch: master
+        github-token: $GH_TOKEN
+        on:
+          branch: master
+    - rust: nightly
+      env: TARGET=x86_64-unknown-linux-gnu FMT=1 CLIPPY=1
+      before_install:
+      install:
+      before_script:
+        - rustup component add rustfmt-preview
+        - rustup component add clippy-preview
+      script:
+        - cargo fmt --all -- --check `find src -iname "*.rs"`
+        - cargo clippy
+  allow_failures:
+    - rust: nightly
+  fast_finish: true
+before_install:
+  - if [[ "$TRAVIS_OS_NAME" == "linux" ]]; then sudo apt-get update -qq; fi
+install:
+  - if [[ "$TARGET" == "x86_64-unknown-linux-musl" ]]; then sudo apt-get install -qq musl-tools; fi
+  - if [[ "$TARGET" == "aarch64-unknown-linux-gnu" ]]; then sudo apt-get install -qq gcc-aarch64-linux-gnu libc6-arm64-cross libc6-dev-arm64-cross; fi
+  - if [[ "$TARGET" == "arm-unknown-linux-gnueabi" ]]; then sudo apt-get install -qq gcc-arm-linux-gnueabi libc6-armel-cross libc6-dev-armel-cross; fi
+before_script:
+  - rustup target add $TARGET || true
+script:
+  - cargo build --verbose --all --target $TARGET
+  - if [[ "$TEST" == "1" ]]; then cargo test --release --verbose --all; fi
+cache: cargo
+before_cache:
+  # Travis can't cache files that are not readable by "others"
+  - chmod -R a+r $HOME/.cargo
+notifications:
+  email:
+    on_success: never

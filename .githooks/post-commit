@@ -1,0 +1,6 @@
+#!/bin/bash
+
+CYAN="\033[1;36m"
+NO_COLOR="\033[0m"
+
+echo -e  "You'd better run $CYAN make clippy $NO_COLOR to catch common mistakes and improve your Rust code."

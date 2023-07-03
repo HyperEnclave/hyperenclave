@@ -1,0 +1,45 @@
+[package]
+name = "rust-hypervisor"
+version = "0.1.0"
+authors = ["Yuekai Jia <yuekai.jyk@antgroup.com>"]
+edition = "2018"
+
+# See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
+
+[features]
+intel = ["libvmm/vmx"]
+amd = ["libvmm/svm"]
+stats = []
+sme = ["amd"]
+enclave_interrupt = []
+epc48 = []
+epc96 = []
+epc144 = []
+epc192 = []
+epc240 = []
+epc288 = []
+epc336 = []
+epc384 = []
+
+[dependencies]
+log = "0.4"
+spin = "0.9.8"
+bitflags = "1.2"
+bit_field = "0.10"
+numeric-enum-macro = "0.2"
+buddy_system_allocator = "0.5"
+libvmm = { path = "./crates/libvmm", default-features = false }
+uart_16550 = { path = "./crates/uart_16550" }
+lazy_static = { version = "1.4", features = ["spin_no_std"] }
+bitmap-allocator = { git = "https://github.com/rcore-os/bitmap-allocator", rev = "03bd9909" }
+sha2 = { version = "0.9.3", default-features = false, features = ["force-soft"] }
+cty = "0.2.1"
+cstr_core = "0.2.2"
+yogcrypt = { path = "./crates/yogcrypt" }
+static_assertions = "1.1.0"
+memoffset = "0.8"
+
+[target.'cfg(target_arch = "x86_64")'.dependencies]
+x86 = "0.34"
+x86_64 = "0.14"
+raw-cpuid = "10.6"
