@@ -18,7 +18,7 @@ HyperEnclave is an open and cross-platform trusted execution environment which r
 
 - **Controlled RoT.** RoT(Root of Trust) has been decoupled from CPU vendors and built on the trustworthy TPM.
 
-- **Proved security.** The first commerial Rust hypervisor has been formal verified.
+- **Proved security.** The first commerial Rust hypervisor that has been formally verified.
 
 - **Auditability.** The core has been open-sourced and audited by the National Authority.
 
@@ -98,7 +98,7 @@ $ sudo update-grub
 $ sudo reboot
 ```
 
-After reboot, check whehter the modified kernel's command-line takes effect:
+After reboot, check whether the modified kernel's command-line takes effect:
 
 ```bash
 $ cat /proc/cmdline
@@ -168,7 +168,7 @@ It indicates we successfully start the HyperEnclave.
 
 ### Run TEE applications
 
-We provide several sample TEE applications which running atop of HyperEnclave. All of them are integrated into our docker image.
+We provide several sample TEE applications running atop of HyperEnclave. All of them are integrated into our docker image.
 
 Here are instructions for starting the docker container:
 ```bash
