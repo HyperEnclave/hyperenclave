@@ -188,7 +188,9 @@ $ docker exec -it hyperenclave_container bash
 
 #### SGX SDK Samples
 
-You can run TEE applications developed based on [Intel SGX SDK](https://github.com/intel/linux-sgx). All the SGX SDK's sample codes are preinstalled in our docker image at `/opt/intel/sgxsdk/SampleCode`. Here is a sample (Command should be done inside Docker container):
+You can run TEE applications developed based on [Intel SGX SDK](https://github.com/intel/linux-sgx). All the SGX SDK's sample codes are preinstalled in our docker image at `/opt/intel/sgxsdk/SampleCode`. Here are two samples (Command should be done inside Docker container):
+
+- SampleEnclave
 ```bash
 $ cd /opt/intel/sgxsdk/SampleCode/SampleEnclave
 $ make
@@ -196,6 +198,10 @@ $ ./app
 Info: executing thread synchronization, please wait...
 Info: SampleEnclave successfully returned.
 ```
+
+- RemoteAttestation
+
+Reference to `demos/RemoteAttestation` for more information.
 
 #### Occlum demos
 
