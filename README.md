@@ -9,6 +9,13 @@
     </a>
 </p>
 
+# PROJECT MOVED TO A NEW REPOSITORY
+**Note**: HyperEnclave repository has been moved to a new location: [https://github.com/asterinas/hyperenclave](https://github.com/asterinas/hyperenclave).
+
+All development will continue there.
+
+# Introduction to HyperEnclave
+
 HyperEnclave is an open and cross-platform trusted execution environment which runs on heterogeneous CPU platforms but decouples its root of trust from CPU vendors. In its nature, HyperEnclave calls for a better TEE ecosystem with improved transparency and trustworthiness. HyperEnclave has been implemented on various commodity CPU platforms and deployed in real-world confidential computing workloads.
 
 
