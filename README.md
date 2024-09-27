@@ -9,7 +9,7 @@
     </a>
 </p>
 
-# PROJECT MOVED TO A NEW REPOSITORY
+# \*\*REPOSITORY MOVED TO A NEW LOCATION\*\*
 **Note**: HyperEnclave repository has been moved to a new location: [https://github.com/asterinas/hyperenclave](https://github.com/asterinas/hyperenclave).
 
 All development will continue there.
